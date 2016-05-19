@@ -89,42 +89,4 @@ public class EntityRenderer {
         // Matriz de transformacao no shader
         shader.loadTransformationMatrix(transformationMatrix);
 	}
-	
-//	// Render do nosso programa
-//    public void render(Entity entity, StaticShader shader){
-//    	TexturedModel model = entity.getModel();
-//    	RawModel rawModel = model.getRawModal();
-//    	
-//        GL30.glBindVertexArray(rawModel.getVaoID());
-//        
-//        // Enable VAO atributos
-//        GL20.glEnableVertexAttribArray(0);
-//        GL20.glEnableVertexAttribArray(1);
-//        GL20.glEnableVertexAttribArray(2);
-//        
-//        // Matriz de transformacao
-//        Matrix4f transformationMatrix = Maths.createTransformationMatrix (	entity.getPosition(),
-//        																	entity.getRotX(), 
-//        																	entity.getRotY(),
-//        																	entity.getRotZ(),
-//        																	entity.getScale());
-//        // Matriz de transformacao no shader
-//        shader.loadTransformationMatrix(transformationMatrix);
-//        
-//        // Luz especular no shader
-//        ModelTexture texture = model.getTexture();
-//        shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
-//
-//        GL13.glActiveTexture(GL13.GL_TEXTURE0);
-//        GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getID());
-//        GL11.glDrawElements(GL11.GL_TRIANGLES, rawModel.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-//        
-//        // Disable VAO atributos
-//        GL20.glDisableVertexAttribArray(0);
-//        GL20.glDisableVertexAttribArray(1);
-//        GL20.glDisableVertexAttribArray(2);
-//        
-//        GL30.glBindVertexArray(0);
-//    }
-    
 }

@@ -8,8 +8,8 @@ import entities.Camera;
 public class Maths {
 
 	// Cria matriz de transformacao
-	public static Matrix4f createTransformationMatrix (Vector3f translation, float rx, float ry,
-			float rz, float scale) {
+	public static Matrix4f createTransformationMatrix 
+				(Vector3f translation, float rx, float ry, float rz, float scale) {
 
 		Matrix4f matrix = new Matrix4f();
 
@@ -54,7 +54,6 @@ public class Maths {
 							viewMatrix);
 		
 		Vector3f cameraPos = camera.getPosition();
-		
 		Vector3f negativeCameraPos = new Vector3f(-cameraPos.x,-cameraPos.y,-cameraPos.z);
 		
 		Matrix4f.translate(negativeCameraPos, viewMatrix, viewMatrix);

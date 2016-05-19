@@ -22,11 +22,10 @@ public class MasterRenderer {
 	private static final float FOV = 70;
 	private static final float NEAR_PLANE = 0.1f;
 	private static final float FAR_PLANE = 1000;
-	
 
-	private static final float RED 		= 0.5f;
-	private static final float GREEN	= 0.5f;
-	private static final float BLUE		= 0.5f;
+	private static final float RED 		= 0.6f;
+	private static final float GREEN	= 0.6f;
+	private static final float BLUE		= 0.6f;
 
 	private Matrix4f projectionMatrix;
 	
@@ -105,7 +104,6 @@ public class MasterRenderer {
 		}
 	}
 	
-	
 	public void cleanUp() {
 		shader.cleanUp();
 		terrainShader.cleanUp();
@@ -125,7 +123,5 @@ public class MasterRenderer {
     	projectionMatrix.m23 = -1;
     	projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustum_length);
     	projectionMatrix.m33 = 0;
-    }
-
-	
+    }	
 }
