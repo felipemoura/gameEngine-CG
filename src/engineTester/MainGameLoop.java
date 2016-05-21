@@ -31,54 +31,29 @@ public class MainGameLoop {
 		// Inicializacao do Loader
 		Loader loader = new Loader();
 
-		ModelData data = OBJFileLoader.loadOBJ("tree");
-		ModelData data2 = OBJFileLoader.loadOBJ("grassModel");
-		ModelData data3 = OBJFileLoader.loadOBJ("fern");
-		ModelData data4 = OBJFileLoader.loadOBJ("capsula");
+		ModelData data = OBJFileLoader.loadOBJ("capsula");
 
 		
 		// Inicializacoa dos modelos
-		RawModel model = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), 
+		RawModel capsuleModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), 
 				data.getNormals(), data.getIndices());
-		RawModel grassModel = loader.loadToVAO(data2.getVertices(), data2.getTextureCoords(), 
-				data2.getNormals(), data2.getIndices());
-		RawModel fernModel = loader.loadToVAO(data3.getVertices(), data3.getTextureCoords(), 
-				data3.getNormals(), data3.getIndices());
-		RawModel capsuleModel = loader.loadToVAO(data4.getVertices(), data4.getTextureCoords(), 
-				data4.getNormals(), data4.getIndices());
-		//		RawModel model = OBJLoader.loadObjModel("tree", loader);
-		//		RawModel grassModel = OBJLoader.loadObjModel("grassModel", loader);
-		//		RawModel fernModel = OBJLoader.loadObjModel("fern", loader);ww
 
 		// Inicializacao das texturas
-		TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("tree")));
-		TexturedModel grass = new TexturedModel(grassModel,new ModelTexture(loader.loadTexture("grassTexture")));
-		TexturedModel fern = new TexturedModel(fernModel,new ModelTexture(loader.loadTexture("fern")));
 		TexturedModel capsule = new TexturedModel(capsuleModel,new ModelTexture(loader.loadTexture("capsula")));
 
+		
 		// Inicializacao de atributos especiais para as texturas
-		grass.getTexture().setUseFakeLighting(true);
-		grass.getTexture().setHasTransparacy(true);
-		fern.getTexture().setHasTransparacy(true);
-		fern.getTexture().setUseFakeLighting(true);
+		capsule.getTexture().setUseFakeLighting(true);
+		capsule.getTexture().setHasTransparacy(true);
 		
 		List<Entity> entities = new ArrayList<Entity>();
 
 		// Determinando posicoes randomicas para cada objeto inserido
 		Random random = new Random();
-		for(int i=0;i<500;i++){
+		for(int i=0;i<1000;i++){
 
 			entities.add(new Entity(capsule, new Vector3f(random.nextFloat()*800 - 400,12,
 					random.nextFloat() * -600),random.nextFloat()*180,random.nextFloat()*180,random.nextFloat()*180,3));
-
-			entities.add(new Entity(staticModel, new Vector3f(random.nextFloat()*800 - 400,0,
-					random.nextFloat() * -600),0,0,0,3));
-
-			entities.add(new Entity(grass, new Vector3f(random.nextFloat() * 800 - 400, 0,
-					random.nextFloat() * -600) ,0 ,0 ,0, 1));
-
-			entities.add(new Entity(fern, new Vector3f(random.nextFloat() * 800 - 400, 0,
-					random.nextFloat() * -600) ,0 ,0 ,0, 0.6f));
 		}
 
 		// Inicializao do modelo de Luz
