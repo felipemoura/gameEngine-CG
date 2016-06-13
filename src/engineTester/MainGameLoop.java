@@ -31,16 +31,20 @@ public class MainGameLoop {
 		// Inicializacao do Loader
 		Loader loader = new Loader();
 
+		// Inicializa modelos de dados
 		ModelData data = OBJFileLoader.loadOBJ("capsula");
+		ModelData data2 = OBJFileLoader.loadOBJ("cubo");
 
-		
 		// Inicializacoa dos modelos
 		RawModel capsuleModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), 
 				data.getNormals(), data.getIndices());
-
+		
+		RawModel cubeModel = loader.loadToVAO(data2.getVertices(), data2.getTextureCoords(), 
+				data2.getNormals(), data2.getIndices());
+		
 		// Inicializacao das texturas
 		TexturedModel capsule = new TexturedModel(capsuleModel,new ModelTexture(loader.loadTexture("capsula")));
-
+		TexturedModel cube = new TexturedModel(cubeModel,new ModelTexture(loader.loadTexture("cubo")));
 		
 		// Inicializacao de atributos especiais para as texturas
 		capsule.getTexture().setUseFakeLighting(true);
@@ -51,8 +55,9 @@ public class MainGameLoop {
 		// Determinando posicoes randomicas para cada objeto inserido
 		Random random = new Random();
 		for(int i=0;i<1000;i++){
-
-			entities.add(new Entity(capsule, new Vector3f(random.nextFloat()*800 - 400,12,
+//			entities.add(new Entity(capsule, new Vector3f(random.nextFloat()*800 - 400,12,
+//					random.nextFloat() * -600),random.nextFloat()*180,random.nextFloat()*180,random.nextFloat()*180,3));
+			entities.add(new Entity(cube, new Vector3f(random.nextFloat()*800 - 400,10,
 					random.nextFloat() * -600),random.nextFloat()*180,random.nextFloat()*180,random.nextFloat()*180,3));
 		}
 
@@ -72,9 +77,7 @@ public class MainGameLoop {
 		// Loop do Jogo
 		while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
 			
-			// game logic
-			/* Falta Fazer*/
-			
+			// Game logic
 			camera.move();
 
 			// Renderizacoes

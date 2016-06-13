@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.ArrayList;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
@@ -13,6 +15,7 @@ public class Camera {
 	private float roll;
 	private float upwardSpeed = 0;
 	private boolean isFlying = false;
+	private ArrayList<Bullet> bullet = new ArrayList<Bullet>();
 	
     private static final float MOVEMENT_SPEED 		= 10.0f;
     private static final float MOUSE_SENSITIVITY	= 0.1f; 
@@ -55,28 +58,33 @@ public class Camera {
 	
 	// move camera todo frame
 	public void move () {
-        if (Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_DOWN))//move forward
-        {
-            this.walkForward(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_W) || Keyboard.isKeyDown(Keyboard.KEY_UP))//move backwards
-        {
-            this.walkBackwards(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_RIGHT))//strafe left
-        {
-            this.strafeLeft(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_LEFT))//strafe right
-        {
-            this.strafeRight(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());
-        }
+		if (Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_DOWN))//move forward
+		{
+			this.walkForward(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_W) || Keyboard.isKeyDown(Keyboard.KEY_UP))//move backwards
+		{
+			this.walkBackwards(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_RIGHT))//strafe left
+		{
+			this.strafeLeft(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_LEFT))//strafe right
+		{
+			this.strafeRight(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());
+		}
         
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) // jump
         {
         	jump () ;
         }
-		
+        
+        // Tiro
+        if (Mouse.isButtonDown(0)) {
+        	bullet.add(new Bullet ());
+        }
+        
 		// Move Camera para para cima ou baixo, direita ou esquerda
 		yaw 	+= Mouse.getDX() * MOUSE_SENSITIVITY;
 		pitch 	-= Mouse.getDY() * MOUSE_SENSITIVITY;
@@ -123,6 +131,4 @@ public class Camera {
 	public void setFlying(boolean isFlying) {
 		this.isFlying = isFlying;
 	}
-	
-	
 }
