@@ -17,7 +17,7 @@ public class Camera {
 	private boolean isFlying = false;
 	private ArrayList<Bullet> bullet = new ArrayList<Bullet>();
 	
-    private static final float MOVEMENT_SPEED 		= 10.0f;
+    private static final float MOVEMENT_SPEED 		= 50.0f;
     private static final float MOUSE_SENSITIVITY	= 0.1f; 
     private static final float GRAVITY				= -50.0f;
     private static final float JUMP_POWER			= 30.0f;
