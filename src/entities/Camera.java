@@ -9,7 +9,7 @@ import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 
 public class Camera {
-	private Vector3f position = new Vector3f (-200,2,-200);
+	private Vector3f position = new Vector3f (0,2, 0);
 	private float pitch;
 	private float yaw;
 	private float roll;
@@ -58,6 +58,7 @@ public class Camera {
 	
 	// move camera todo frame
 	public void move () {
+//		System.out.println(this.position.toString());
 		if (Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_DOWN))//move forward
 		{
 			this.walkForward(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());

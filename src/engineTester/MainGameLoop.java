@@ -10,6 +10,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import entities.Camera;
+import entities.ColisionLife;
 import entities.Entity;
 import entities.Light;
 import gui.GuiRenderer;
@@ -28,6 +29,8 @@ public class MainGameLoop {
 
 	public static void main(String[] args) throws InterruptedException {
 
+		boolean flagEnded = false;
+		
 		// Criacao de um display
 		DisplayManager.createDisplay();
 		
@@ -62,14 +65,14 @@ public class MainGameLoop {
 		capsule.getTexture().setUseFakeLighting(true);
 		capsule.getTexture().setHasTransparacy(true);
 		
-		List<Entity> entities = new ArrayList<Entity>();
+		List<Entity> lifes = new ArrayList<Entity>();
 
 		// Determinando posicoes randomicas para cada objeto inserido
 		Random random = new Random();
 		
-		for(int i=0;i<100;i++){
-			entities.add(new Entity(life, new Vector3f(random.nextFloat()*400 - 200,0,
-					random.nextFloat() * -150),random.nextFloat()*90,random.nextFloat()*90,random.nextFloat()*90,3));
+		for(int i=0;i<200;i++){
+			lifes.add(new Entity(life, new Vector3f(random.nextFloat()*400 - 200,0,
+					random.nextFloat() * -150),random.nextFloat()*180,random.nextFloat()*180,random.nextFloat()*90,3));
 //			entities.add(new Entity(cube, new Vector3f(random.nextFloat()*800 - 400,10,
 //					random.nextFloat() * -600),random.nextFloat()*180,random.nextFloat()*180,random.nextFloat()*180,3));
 		}
@@ -106,28 +109,39 @@ public class MainGameLoop {
 			// Game logic
 			camera.move();
 
+			
 			// Renderizacoes
 			renderer.processTerrain(terrain);
 //			renderer.processTerrain(terrain2);
 
-			for(Entity entity:entities){
+			for(Entity entity:lifes){
 				renderer.processEntity(entity);
 			}
 			renderer.render(light, camera);
 			
-			GuiTexture guiaux = guis.get(1);
-			Vector2f positionaux = guiaux.getPosition();
-			Vector2f scaleaux = guiaux.getScale();
-			positionaux.setX(positionaux.x - 0.001f);
-			scaleaux.setX(scaleaux.x - 0.001f);
-//			scaleaux.x -= 0.00000000000001f*DisplayManager.getFrameTimeSeconds();
-			guiaux.setPosition(positionaux);
-			guiaux.setScale(scaleaux);
-			guis.add(1, guiaux);
-			
-			if (guiaux.getScale().getX() < 0) {
-
-				guis.add(gui3);
+			if (!flagEnded) {
+				ColisionLife.checkColision(camera, lifes, guis);
+				
+				GuiTexture guiaux = guis.get(1);
+				Vector2f positionaux = guiaux.getPosition();
+				Vector2f scaleaux = guiaux.getScale();
+				
+				if (scaleaux.x > 0) {
+					positionaux.setX(positionaux.x - 0.001f);
+					scaleaux.setX(scaleaux.x - 0.001f);
+				}
+				
+				guiaux.setPosition(positionaux);
+				guiaux.setScale(scaleaux);
+				guis.add(1, guiaux);
+				
+				// Ve se jogador morreu
+				// adiciona tela de morte
+				if (guiaux.getScale().getX() < 0) {
+					flagEnded =!flagEnded;
+					guis.removeAll(guis);
+					guis.add(gui3);
+				}
 			}
 			
 			// render do GUI
