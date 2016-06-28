@@ -1,31 +1,40 @@
 package entities;
 
-import java.util.ArrayList;
+import java.awt.MouseInfo;
+import java.awt.event.MouseAdapter;
+import java.awt.peer.MouseInfoPeer;
+
+import javax.swing.plaf.basic.BasicTabbedPaneUI.MouseHandler;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
+import org.w3c.dom.events.MouseEvent;
 
 import renderEngine.DisplayManager;
 
 public class Camera {
-	private Vector3f position = new Vector3f (0,2, 0);
+	private static Vector3f position = new Vector3f (-100,2,-100);
+	private static boolean hitFlag; 
 	private float pitch;
 	private float yaw;
 	private float roll;
 	private float upwardSpeed = 0;
 	private boolean isFlying = false;
-	private ArrayList<Bullet> bullet = new ArrayList<Bullet>();
 	
-    private static final float MOVEMENT_SPEED 		= 50.0f;
+    private static final float MOVEMENT_SPEED 		= 40.0f;
     private static final float MOUSE_SENSITIVITY	= 0.1f; 
     private static final float GRAVITY				= -50.0f;
     private static final float JUMP_POWER			= 30.0f;
     private static final float TERRAIN_HEIGHT		= 2.0f;
     
+    private static int HP = 100;
+    private static int killed = 0;
+    
     public Camera () {
 	    //esconde o  mouse
 	    Mouse.setGrabbed(true);
+	    hitFlag = false;
 	}
     
     //moves the camera forward relative to its current rotation (yaw)
@@ -58,34 +67,37 @@ public class Camera {
 	
 	// move camera todo frame
 	public void move () {
-//		System.out.println(this.position.toString());
-		if (Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_DOWN))//move forward
-		{
-			this.walkForward(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_W) || Keyboard.isKeyDown(Keyboard.KEY_UP))//move backwards
-		{
-			this.walkBackwards(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_RIGHT))//strafe left
-		{
-			this.strafeLeft(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_LEFT))//strafe right
-		{
-			this.strafeRight(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());
-		}
+        if (Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_DOWN))//move forward
+        {
+            this.walkForward(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_W) || Keyboard.isKeyDown(Keyboard.KEY_UP))//move backwards
+        {
+            this.walkBackwards(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_RIGHT))//strafe left
+        {
+            this.strafeLeft(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_LEFT))//strafe right
+        {
+            this.strafeRight(MOVEMENT_SPEED *DisplayManager.getFrameTimeSeconds());
+        }
+        
+        checkBoundaries();
         
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) // jump
         {
-        	jump () ;
+        	jump ();
         }
         
-        // Tiro
-        if (Mouse.isButtonDown(0)) {
-        	bullet.add(new Bullet ());
+        if (Keyboard.isKeyDown(Keyboard.KEY_E)){
+        	hitFlag = true;
         }
-        
+        else {
+        	hitFlag = false;
+        }
+		
 		// Move Camera para para cima ou baixo, direita ou esquerda
 		yaw 	+= Mouse.getDX() * MOUSE_SENSITIVITY;
 		pitch 	-= Mouse.getDY() * MOUSE_SENSITIVITY;
@@ -101,6 +113,18 @@ public class Camera {
 		}
 	}
 	
+	private void checkBoundaries(){
+		if(position.x > 0)
+			position.x = 0;
+		else if(position.x < -200)
+			position.x = -200;
+		
+		if(position.z > 0)
+			position.z = 0;
+		else if(position.z < -200)
+			position.z = -200;
+	}
+	
 	private void jump () {
 		// para nao voar infinito
 		if (!isFlying ()) {
@@ -109,8 +133,12 @@ public class Camera {
 		}
 	}
 
-	public Vector3f getPosition() {
+	public static Vector3f getPosition() {
 		return position;
+	}
+	
+	public static void takeDamage(){
+		HP -= 10;
 	}
 
 	public float getPitch() {
@@ -131,5 +159,25 @@ public class Camera {
 
 	public void setFlying(boolean isFlying) {
 		this.isFlying = isFlying;
+	}
+	
+	public static boolean getHitFlag(){
+		return hitFlag;
+	}
+	
+	public static int getHP(){
+		return HP;
+	}
+	
+	public static void addKill(){
+		killed++;
+	}
+	
+	public static int getKilled(){
+		return killed;
+	}
+
+	public static void addHP(int i) {
+		HP += i;
 	}
 }

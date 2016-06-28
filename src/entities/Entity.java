@@ -6,8 +6,8 @@ import models.TexturedModel;
 
 public class Entity {
 	private TexturedModel model;
-	private Vector3f position;
-	private float rotX, rotY, rotZ;
+	protected Vector3f position;
+	protected float rotX, rotY, rotZ;
 	private float scale;
 
 	public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
@@ -18,6 +18,31 @@ public class Entity {
 		this.rotY = rotY;
 		this.rotZ = rotZ;
 		this.scale = scale;
+	}
+	
+	public int Update(){
+		updateRotation();
+		
+		return 0;
+	}
+	
+	protected void updateRotation(){
+		Vector3f relation;
+		
+		if(Camera.getPosition().z < position.z){
+			relation = new Vector3f(Camera.getPosition().x - position.x, 0, Camera.getPosition().z - position.z);
+			relation = (Vector3f) relation.normalise();
+			float ang = (float) Math.acos(relation.getX());
+			ang = (float) (180*ang/3.14 + 90);
+			setRotY(ang);
+		}
+		else{
+			relation = new Vector3f(position.x - Camera.getPosition().x, 0, position.z - Camera.getPosition().z);
+			relation = (Vector3f) relation.normalise();
+			float ang = (float) Math.acos(relation.getX());
+			ang = (float) (180*ang/3.14 + 90 + 180);
+			setRotY(ang);
+		}
 	}
 
 	public void increasePosition (float dx, float dy, float dz) {

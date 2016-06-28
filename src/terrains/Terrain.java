@@ -6,7 +6,7 @@ import textures.ModelTexture;
 
 public class Terrain {
 
-	private static final float SIZE = 800;
+	private static final float SIZE = 240;
 	private static final int VERTEX_COUNT = 128;
 
 	private float x;
@@ -16,8 +16,8 @@ public class Terrain {
 
 	public Terrain(int gridX, int gridZ, Loader loader, ModelTexture texture){
 		this.texture = texture;
-		this.x = gridX * SIZE;
-		this.z = gridZ * SIZE;
+		this.x = gridX * SIZE + 20;
+		this.z = gridZ * SIZE + 20;
 		this.model = generateTerrain(loader);
 	}
 

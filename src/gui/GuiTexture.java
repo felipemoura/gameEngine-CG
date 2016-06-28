@@ -18,21 +18,24 @@ public class GuiTexture {
 	public int getTexture() {
 		return texture;
 	}
+	
 	public void setTexture(int texture) {
 		this.texture = texture;
 	}
+	
 	public Vector2f getPosition() {
 		return position;
 	}
+	
 	public void setPosition(Vector2f position) {
 		this.position = position;
 	}
+	
 	public Vector2f getScale() {
 		return scale;
 	}
+	
 	public void setScale(Vector2f scale) {
 		this.scale = scale;
 	}
-	
-	
 }
